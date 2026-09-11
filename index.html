@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAA-C03 Practice Test | AWS Solutions Architect Associate</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-badge">AWS</span>
+      <div>
+        <h1>SAA-C03 Practice Test</h1>
+        <p class="subtitle">Solutions Architect – Associate · Simulador de examen</p>
+      </div>
+    </div>
+    <div class="header-stats" id="headerStats" hidden>
+      <div class="stat" id="timerStat" hidden>
+        <span class="stat-label">Tiempo</span>
+        <span class="stat-value" id="timerText">00:00</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Pregunta</span>
+        <span class="stat-value" id="progressText">0 / 0</span>
+      </div>
+      <div class="stat" id="scoreStat">
+        <span class="stat-label">Correctas</span>
+        <span class="stat-value" id="scoreText">0%</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- Pantalla de inicio -->
+    <section id="startScreen" class="card start-card">
+      <h2>Practica para tu certificación</h2>
+      <p>
+        Preguntas de opción múltiple basadas en los dominios oficiales del examen
+        y en la documentación de AWS. Al confirmar cada respuesta verás de inmediato
+        si es correcta y por qué cada alternativa es o no la adecuada.
+      </p>
+
+      <div class="mode-toggle">
+        <label class="mode-card">
+          <input type="radio" name="mode" value="practice" checked />
+          <span class="mode-title">Modo práctica</span>
+          <span class="mode-desc">Feedback inmediato: al confirmar cada respuesta ves si acertaste y la explicación de cada alternativa.</span>
+        </label>
+        <label class="mode-card">
+          <input type="radio" name="mode" value="exam" />
+          <span class="mode-title">Modo examen (cronometrado)</span>
+          <span class="mode-desc">Sin feedback hasta el final. Temporizador regresivo que simula las condiciones reales del examen.</span>
+        </label>
+      </div>
+
+      <div class="options-grid">
+        <label class="field">
+          <span>Cantidad de preguntas</span>
+          <select id="questionCount">
+            <option value="10">10 preguntas</option>
+            <option value="20" selected>20 preguntas</option>
+            <option value="65">65 preguntas (como el examen real)</option>
+            <option value="0">Todas</option>
+          </select>
+        </label>
+        <label class="field" id="durationField" hidden>
+          <span>Duración del examen</span>
+          <select id="examDuration">
+            <option value="0">Automática (~2 min/pregunta)</option>
+            <option value="1800">30 minutos</option>
+            <option value="3900">65 minutos</option>
+            <option value="7800">130 minutos (examen real)</option>
+          </select>
+        </label>
+        <label class="field checkbox">
+          <input type="checkbox" id="shuffleQuestions" checked />
+          <span>Ordenar preguntas al azar</span>
+        </label>
+      </div>
+
+      <button class="btn primary" id="startBtn">Comenzar test</button>
+
+      <div class="domains">
+        <h3>Dominios cubiertos</h3>
+        <ul>
+          <li><strong>Dominio 1:</strong> Diseño de arquitecturas seguras (30%)</li>
+          <li><strong>Dominio 2:</strong> Diseño de arquitecturas resilientes (26%)</li>
+          <li><strong>Dominio 3:</strong> Diseño de arquitecturas de alto rendimiento (24%)</li>
+          <li><strong>Dominio 4:</strong> Diseño de arquitecturas optimizadas en costos (20%)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Pantalla de preguntas -->
+    <section id="quizScreen" class="card" hidden>
+      <div class="question-meta">
+        <span class="domain-tag" id="domainTag">Dominio</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <h2 class="question-text" id="questionText"></h2>
+      <p class="multi-hint" id="multiHint" hidden>Selecciona todas las que correspondan.</p>
+
+      <form id="answersForm" class="answers"></form>
+
+      <div class="quiz-actions">
+        <button class="btn" id="prevBtn" hidden>Anterior</button>
+        <button class="btn primary" id="confirmBtn">Confirmar respuesta</button>
+        <button class="btn" id="nextBtn" hidden>Siguiente</button>
+        <button class="btn" id="finishBtn" hidden>Finalizar examen</button>
+      </div>
+
+      <div class="explanation" id="explanation" hidden>
+        <div class="result-banner" id="resultBanner"></div>
+        <ul class="explanation-list" id="explanationList"></ul>
+        <a class="doc-link" id="docLink" href="#" target="_blank" rel="noopener" hidden>
+          📖 Documentación de AWS relacionada
+        </a>
+      </div>
+    </section>
+
+    <!-- Pantalla de resultados -->
+    <section id="resultScreen" class="card result-card" hidden>
+      <h2>Resultados del test</h2>
+      <div class="score-circle" id="scoreCircle">
+        <span id="finalScore">0%</span>
+      </div>
+      <p class="result-summary" id="resultSummary"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="reviewBtn">Revisar respuestas</button>
+        <button class="btn" id="restartBtn">Nuevo test</button>
+      </div>
+      <div id="reviewContainer" class="review-container" hidden></div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      Contenido de práctica no oficial creado con fines de estudio. AWS y SAA-C03
+      son marcas de Amazon Web Services. Verifica siempre con la
+      <a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">documentación oficial</a>.
+    </p>
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
