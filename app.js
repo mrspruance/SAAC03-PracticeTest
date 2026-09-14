@@ -63,9 +63,11 @@
   function startQuiz() {
     const count = parseInt(el("questionCount").value, 10);
     const doShuffle = el("shuffleQuestions").checked;
+    const newOnly = el("newQuestionsOnly").checked;
     mode = getMode();
 
     let pool = QUESTIONS.slice();
+    if (newOnly) pool = pool.filter((q) => q.new === true);
     if (doShuffle) pool = shuffle(pool);
     if (count > 0) pool = pool.slice(0, count);
 
@@ -137,6 +139,12 @@
     explanation.hidden = true;
 
     domainTag.textContent = q.domain;
+    if (q.new) {
+      const badge = document.createElement("span");
+      badge.className = "new-badge";
+      badge.textContent = "NEW";
+      domainTag.appendChild(badge);
+    }
     questionText.textContent = `${index + 1}. ${q.text}`;
     multiHint.hidden = !q.multiple;
     progressFill.style.width = `${((index) / quiz.length) * 100}%`;

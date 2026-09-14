@@ -1903,5 +1903,255 @@ const QUESTIONS = [
       { text: "Cifrar solo los datos en reposo.", correct: false, explanation: "Incorrecto. El cifrado en reposo no protege los datos mientras viajan por la red." },
       { text: "Deshabilitar TLS para mejorar el rendimiento.", correct: false, explanation: "Incorrecto. Deshabilitar TLS elimina el cifrado en tránsito, exponiendo los datos." }
     ]
+  },
+
+  // ── Preguntas nuevas: temas detectados como faltantes respecto al curso SAA-C03 ──
+
+  {
+    domain: "Dominio 1 · Arquitecturas seguras",
+    text: "Una empresa almacena datos de clientes en S3 y necesita detectar y clasificar automáticamente información personal identificable (PII) como números de tarjetas de crédito. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html",
+    options: [
+      { text: "Amazon Macie.", correct: true, explanation: "Correcto. Macie usa machine learning para descubrir y clasificar datos sensibles (PII, datos financieros, etc.) almacenados en S3." },
+      { text: "Amazon GuardDuty.", correct: false, explanation: "Incorrecto. GuardDuty detecta amenazas analizando logs de actividad, no clasifica el contenido de los objetos de S3." },
+      { text: "Amazon Inspector.", correct: false, explanation: "Incorrecto. Inspector evalúa vulnerabilidades en EC2/ECR; no analiza el contenido de buckets S3." },
+      { text: "AWS Config.", correct: false, explanation: "Incorrecto. Config evalúa el cumplimiento de configuración de recursos, no clasifica datos sensibles dentro de los objetos." }
+    ]
+  },
+  {
+    domain: "Dominio 1 · Arquitecturas seguras",
+    text: "Una empresa quiere gestionar la autenticación de sus usuarios finales en una aplicación web y móvil, incluyendo inicio de sesión con redes sociales (Google, Facebook) y obtener credenciales temporales de AWS. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html",
+    options: [
+      { text: "Amazon Cognito (User Pools + Identity Pools).", correct: true, explanation: "Correcto. Los User Pools gestionan el registro e inicio de sesión (incluyendo federación social), y los Identity Pools emiten credenciales temporales de AWS para acceder a recursos como S3 o DynamoDB." },
+      { text: "AWS IAM con usuarios por cada cliente.", correct: false, explanation: "Incorrecto. Crear usuarios de IAM por cliente no escala para aplicaciones con millones de usuarios finales." },
+      { text: "AWS Directory Service exclusivamente.", correct: false, explanation: "Incorrecto. Directory Service gestiona identidades corporativas (AD), no usuarios finales de aplicaciones web/móvil." },
+      { text: "Almacenar credenciales directamente en DynamoDB.", correct: false, explanation: "Incorrecto. Almacenar credenciales en una base de datos sin un servicio de autenticación dedicado es inseguro." }
+    ]
+  },
+  {
+    domain: "Dominio 1 · Arquitecturas seguras",
+    text: "Una empresa quiere gestionar y renovar automáticamente certificados SSL/TLS para sus aplicaciones detrás de un ALB y CloudFront. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html",
+    options: [
+      { text: "AWS Certificate Manager (ACM).", correct: true, explanation: "Correcto. ACM provisiona, administra y renueva automáticamente certificados SSL/TLS para servicios integrados como ALB, NLB y CloudFront, sin costo adicional." },
+      { text: "Generar certificados autofirmados manualmente en cada instancia.", correct: false, explanation: "Incorrecto. Los certificados autofirmados no son de confianza pública y su gestión manual es propensa a errores y vencimientos." },
+      { text: "AWS KMS para emitir certificados de servidor.", correct: false, explanation: "Incorrecto. KMS gestiona claves de cifrado; no emite ni administra certificados SSL/TLS." },
+      { text: "AWS Secrets Manager para almacenar el certificado y actualizarlo a mano.", correct: false, explanation: "Incorrecto. Secrets Manager puede almacenar secretos, pero no emite ni renueva automáticamente certificados como ACM." }
+    ]
+  },
+  {
+    domain: "Dominio 2 · Arquitecturas resilientes",
+    text: "Una empresa quiere programar tareas automáticas (como limpiar datos cada noche) y reaccionar a eventos de servicios de AWS (como un cambio de estado en EC2) sin administrar infraestructura. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html",
+    options: [
+      { text: "Amazon EventBridge.", correct: true, explanation: "Correcto. EventBridge permite programar eventos (cron), reaccionar a cambios de estado de servicios AWS y conectar aplicaciones mediante un bus de eventos serverless." },
+      { text: "Amazon SQS.", correct: false, explanation: "Incorrecto. SQS es una cola de mensajes; no programa tareas periódicas ni enruta eventos de servicios AWS." },
+      { text: "Amazon SNS.", correct: false, explanation: "Incorrecto. SNS es un servicio pub/sub para notificaciones; no tiene scheduling nativo ni un bus de eventos tan rico como EventBridge." },
+      { text: "AWS Step Functions.", correct: false, explanation: "Incorrecto. Step Functions orquesta flujos de trabajo; no es el punto de entrada para programar o capturar eventos de servicios AWS." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita construir un pipeline ETL serverless que extraiga datos de múltiples fuentes, los transforme y los cargue en Redshift, con un catálogo centralizado de metadatos. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html",
+    options: [
+      { text: "AWS Glue.", correct: true, explanation: "Correcto. Glue es un servicio ETL serverless que incluye un catálogo de datos (Data Catalog), crawlers para descubrir esquemas y trabajos para transformar y mover datos." },
+      { text: "Amazon EMR para cada trabajo ETL pequeño.", correct: false, explanation: "Incorrecto. EMR es para procesamiento big data en clústeres; para ETL serverless sin administrar clústeres, Glue es la opción adecuada." },
+      { text: "Amazon Redshift Spectrum únicamente.", correct: false, explanation: "Incorrecto. Redshift Spectrum consulta datos en S3 pero no orquesta pipelines ETL completos ni gestiona un catálogo de metadatos." },
+      { text: "AWS Lambda con scripts Python para cada transformación.", correct: false, explanation: "Incorrecto. Lambda tiene límites de tiempo y memoria para transformaciones grandes; Glue está optimizado para ETL a escala." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita un sistema de archivos de alto rendimiento (sub-milisegundo) para cargas HPC y machine learning que procesen datos desde S3. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html",
+    options: [
+      { text: "Amazon FSx for Lustre.", correct: true, explanation: "Correcto. FSx for Lustre ofrece un sistema de archivos de alto rendimiento (cientos de GB/s, sub-ms) diseñado para HPC y ML, con integración nativa para importar/exportar datos desde S3." },
+      { text: "Amazon EFS.", correct: false, explanation: "Incorrecto. EFS es un NFS de uso general; no alcanza el rendimiento sub-milisegundo de FSx for Lustre para HPC." },
+      { text: "Amazon S3 directamente.", correct: false, explanation: "Incorrecto. S3 tiene mayor latencia (decenas de ms) comparado con FSx for Lustre; no es adecuado como sistema de archivos POSIX de alto rendimiento." },
+      { text: "Amazon EBS gp3.", correct: false, explanation: "Incorrecto. EBS gp3 es un volumen para una instancia; no puede compartirse entre muchos nodos HPC como FSx for Lustre." }
+    ]
+  },
+  {
+    domain: "Dominio 2 · Arquitecturas resilientes",
+    text: "Una empresa quiere conectar sistemas on-premises con AWS usando un middleware de mensajes estándar (JMS, AMQP, MQTT) sin reescribir las aplicaciones. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html",
+    options: [
+      { text: "Amazon MQ.", correct: true, explanation: "Correcto. Amazon MQ es un broker de mensajes administrado basado en Apache ActiveMQ/RabbitMQ que soporta protocolos estándar (JMS, AMQP, MQTT, STOMP), permitiendo migrar sin reescribir aplicaciones." },
+      { text: "Amazon SQS.", correct: false, explanation: "Incorrecto. SQS es una cola propietaria de AWS; para aplicaciones que ya usan protocolos JMS/AMQP estándares, Amazon MQ permite la migración sin cambios." },
+      { text: "Amazon SNS.", correct: false, explanation: "Incorrecto. SNS es pub/sub propietario de AWS; no soporta los protocolos estándar de mensajería como JMS o AMQP." },
+      { text: "AWS Step Functions.", correct: false, explanation: "Incorrecto. Step Functions orquesta flujos de trabajo; no es un broker de mensajes compatible con protocolos estándar." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita ejecutar contenedores Kubernetes administrados en AWS sin gestionar los nodos del plano de control. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html",
+    options: [
+      { text: "Amazon EKS (Elastic Kubernetes Service).", correct: true, explanation: "Correcto. EKS proporciona un plano de control de Kubernetes administrado por AWS, permitiendo ejecutar workloads Kubernetes sin gestionar etcd ni el API server." },
+      { text: "Amazon ECS con tipo de lanzamiento EC2.", correct: false, explanation: "Incorrecto. ECS es el orquestador propio de AWS; para workloads Kubernetes estándar se usa EKS." },
+      { text: "AWS Lambda para contenedores.", correct: false, explanation: "Incorrecto. Lambda puede ejecutar imágenes de contenedores, pero no es un orquestador Kubernetes." },
+      { text: "Instalar Kubernetes manualmente en instancias EC2.", correct: false, explanation: "Incorrecto. La instalación manual requiere administrar el plano de control; EKS lo gestiona por ti." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita identificar objetos y escenas en imágenes y videos de forma automática para moderar contenido. ¿Qué servicio de ML de AWS usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html",
+    options: [
+      { text: "Amazon Rekognition.", correct: true, explanation: "Correcto. Rekognition analiza imágenes y videos para detectar objetos, escenas, texto, caras y contenido inapropiado, sin necesidad de experiencia en ML." },
+      { text: "Amazon Comprehend.", correct: false, explanation: "Incorrecto. Comprehend procesa texto natural (NLP); no analiza imágenes ni videos." },
+      { text: "Amazon Transcribe.", correct: false, explanation: "Incorrecto. Transcribe convierte audio a texto; no analiza imágenes." },
+      { text: "Amazon SageMaker.", correct: false, explanation: "Incorrecto. SageMaker es una plataforma para construir modelos ML personalizados; Rekognition ya tiene el modelo preentrenado listo para usar." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa quiere convertir texto en voz realista en múltiples idiomas para su aplicación de e-learning. ¿Qué servicio de AWS usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/polly/latest/dg/what-is.html",
+    options: [
+      { text: "Amazon Polly.", correct: true, explanation: "Correcto. Polly es un servicio de Text-to-Speech que convierte texto en voz realista en muchos idiomas e incluye voces neurales de alta calidad." },
+      { text: "Amazon Transcribe.", correct: false, explanation: "Incorrecto. Transcribe convierte voz a texto (Speech-to-Text), lo contrario de lo que se necesita." },
+      { text: "Amazon Translate.", correct: false, explanation: "Incorrecto. Translate traduce texto entre idiomas, pero no lo convierte en audio." },
+      { text: "Amazon Lex.", correct: false, explanation: "Incorrecto. Lex construye chatbots con voz e intención, pero no es un servicio TTS de propósito general como Polly." }
+    ]
+  },
+  {
+    domain: "Dominio 1 · Arquitecturas seguras",
+    text: "Una empresa usa múltiples cuentas de AWS y quiere provisionar infraestructura de forma consistente y repetible usando plantillas. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html",
+    options: [
+      { text: "AWS CloudFormation.", correct: true, explanation: "Correcto. CloudFormation permite definir la infraestructura como código (IaC) en plantillas YAML/JSON y aprovisionar recursos de forma consistente y repetible en cualquier cuenta o región." },
+      { text: "AWS Config.", correct: false, explanation: "Incorrecto. Config monitorea y evalúa cumplimiento de configuración, pero no provisiona infraestructura a partir de plantillas." },
+      { text: "AWS Systems Manager.", correct: false, explanation: "Incorrecto. Systems Manager gestiona operaciones (patch, inventario, parámetros); no es un motor de IaC para provisionar recursos desde plantillas." },
+      { text: "Amazon EC2 Image Builder.", correct: false, explanation: "Incorrecto. Image Builder automatiza la creación de AMIs; no provisiona la infraestructura general de la cuenta." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa tiene usuarios globales y quiere mejorar la disponibilidad y el rendimiento de su aplicación TCP/UDP con enrutamiento inteligente por la red troncal de AWS y failover automático. ¿Qué servicio usar en lugar de CloudFront?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html",
+    options: [
+      { text: "AWS Global Accelerator.", correct: true, explanation: "Correcto. Global Accelerator enruta el tráfico TCP/UDP por la red troncal de AWS desde la edge location más cercana al usuario hasta el endpoint, mejorando rendimiento y disponibilidad con failover automático. A diferencia de CloudFront, no cachea contenido." },
+      { text: "Amazon CloudFront.", correct: false, explanation: "Parcialmente válido para HTTP/S con caché; pero para TCP/UDP sin caché y con IPs Anycast estáticas, Global Accelerator es la respuesta correcta." },
+      { text: "Amazon Route 53 con latency routing.", correct: false, explanation: "Incorrecto. Route 53 dirige a través de DNS pero el tráfico sigue por Internet; Global Accelerator usa la red privada de AWS desde el edge." },
+      { text: "Un NLB en una sola región.", correct: false, explanation: "Incorrecto. Un NLB regional no ofrece routing inteligente global ni usa la red troncal de AWS para reducir latencia a usuarios distantes." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita conectar objetos IoT a la nube de forma segura, enrutar mensajes y aplicar reglas para almacenarlos en DynamoDB o procesarlos con Lambda. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/iot/latest/developerguide/what-is-aws-iot.html",
+    options: [
+      { text: "AWS IoT Core.", correct: true, explanation: "Correcto. IoT Core conecta dispositivos IoT de forma segura, gestiona el broker MQTT y permite definir reglas para enrutar mensajes hacia otros servicios de AWS como DynamoDB, Lambda o S3." },
+      { text: "Amazon Kinesis Data Streams.", correct: false, explanation: "Incorrecto. Kinesis es ideal para streaming de datos, pero no gestiona el ciclo de vida de dispositivos IoT ni el protocolo MQTT de forma nativa." },
+      { text: "Amazon SQS.", correct: false, explanation: "Incorrecto. SQS es una cola de mensajes; no tiene las capacidades de registro de dispositivos, seguridad por certificados ni el motor de reglas de IoT Core." },
+      { text: "Amazon API Gateway.", correct: false, explanation: "Incorrecto. API Gateway gestiona APIs HTTP/REST; no soporta el protocolo MQTT ni los patrones de dispositivos IoT." }
+    ]
+  },
+  {
+    domain: "Dominio 4 · Optimización de costos",
+    text: "Una empresa quiere extender su infraestructura on-premises con hardware físico de AWS instalado en sus propios centros de datos para cumplir requisitos de latencia o residencia de datos. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html",
+    options: [
+      { text: "AWS Outposts.", correct: true, explanation: "Correcto. Outposts lleva infraestructura y servicios de AWS (EC2, EBS, RDS, etc.) al centro de datos on-premises, ofreciendo una experiencia AWS local para cargas con baja latencia o requisitos de residencia de datos." },
+      { text: "AWS Direct Connect.", correct: false, explanation: "Incorrecto. Direct Connect provee conectividad dedicada entre on-premises y AWS en la nube, pero no instala hardware AWS en el datacenter del cliente." },
+      { text: "AWS Site-to-Site VPN.", correct: false, explanation: "Incorrecto. La VPN cifra el tráfico en tránsito; no extiende la infraestructura física de AWS al datacenter del cliente." },
+      { text: "Amazon EC2 en una región cercana.", correct: false, explanation: "Incorrecto. EC2 en una región sigue siendo cloud; no resuelve requisitos de latencia ultra-baja ni residencia de datos dentro del datacenter." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita ejecutar trabajos de cómputo por lotes de alta escala (HPC, simulaciones) que requieren miles de vCPUs de forma completamente administrada y optimizando costos con Spot. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html",
+    options: [
+      { text: "AWS Batch.", correct: true, explanation: "Correcto. Batch aprovisiona y gestiona automáticamente la capacidad de cómputo (EC2/Spot) para trabajos por lotes a cualquier escala, sin administrar clústeres." },
+      { text: "AWS Lambda.", correct: false, explanation: "Incorrecto. Lambda tiene un límite de 15 minutos por ejecución y no está diseñado para trabajos HPC de larga duración a gran escala." },
+      { text: "Amazon ECS con tipo EC2 manual.", correct: false, explanation: "Incorrecto. ECS con EC2 requiere administrar la capacidad; Batch lo gestiona automáticamente y optimiza con Spot." },
+      { text: "Amazon EMR.", correct: false, explanation: "Incorrecto. EMR está especializado en frameworks big data (Spark, Hadoop); Batch es más general para cualquier trabajo por lotes sin un framework específico." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa quiere crear un data lake sobre S3 y controlar de forma granular qué usuarios pueden acceder a qué tablas y columnas del catálogo de datos. ¿Qué servicio facilita este control centralizado?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html",
+    options: [
+      { text: "AWS Lake Formation.", correct: true, explanation: "Correcto. Lake Formation facilita la creación y administración de data lakes, integrándose con Glue Data Catalog y permitiendo definir permisos granulares a nivel de tabla, columna y fila sobre los datos." },
+      { text: "Amazon S3 con políticas de bucket.", correct: false, explanation: "Incorrecto. Las políticas de bucket controlan el acceso al nivel de prefijo/objeto, no ofrecen control granular de tablas y columnas del data lake." },
+      { text: "AWS IAM roles directamente sobre S3.", correct: false, explanation: "Incorrecto. IAM controla el acceso a nivel de S3, no a nivel de tabla/columna en el contexto del data lake." },
+      { text: "Amazon Redshift Spectrum.", correct: false, explanation: "Incorrecto. Redshift Spectrum consulta datos en S3 con SQL, pero no gestiona el control de acceso centralizado del data lake." }
+    ]
+  },
+  {
+    domain: "Dominio 3 · Alto rendimiento",
+    text: "Una empresa necesita construir dashboards de Business Intelligence interactivos sobre datos almacenados en Redshift, Athena y S3, sin gestionar servidores. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/quicksight/latest/user/welcome.html",
+    options: [
+      { text: "Amazon QuickSight.", correct: true, explanation: "Correcto. QuickSight es un servicio de BI serverless que permite crear dashboards interactivos conectándose a Redshift, Athena, S3 y otras fuentes, escalando automáticamente." },
+      { text: "Amazon Redshift directamente.", correct: false, explanation: "Incorrecto. Redshift es el motor de consultas; QuickSight es la capa de visualización que se conecta sobre él." },
+      { text: "AWS Glue.", correct: false, explanation: "Incorrecto. Glue es ETL; no crea dashboards de visualización." },
+      { text: "Amazon EMR con Jupyter Notebooks.", correct: false, explanation: "Incorrecto. Notebooks son para análisis exploratorio técnico; QuickSight está orientado a dashboards BI para usuarios de negocio." }
+    ]
+  },
+  {
+    domain: "Dominio 2 · Arquitecturas resilientes",
+    text: "Una empresa conecta su red on-premises a múltiples VPCs de AWS y redes de socios a través de una arquitectura hub-and-spoke para simplificar el ruteo. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html",
+    options: [
+      { text: "AWS Transit Gateway.", correct: true, explanation: "Correcto. Transit Gateway actúa como hub central que conecta múltiples VPCs y redes on-premises (VPN/Direct Connect), simplificando el ruteo frente a múltiples VPC peerings individuales." },
+      { text: "VPC Peering entre cada par de VPCs.", correct: false, explanation: "Incorrecto. El peering no es transitivo; con muchas VPCs crea una malla compleja de conexiones. Transit Gateway lo simplifica con un hub central." },
+      { text: "AWS Direct Connect sin Transit Gateway.", correct: false, explanation: "Parcialmente correcto, pero Direct Connect solo conecta on-premises con AWS; Transit Gateway añade el hub para interconectar múltiples VPCs." },
+      { text: "Un Internet Gateway compartido.", correct: false, explanation: "Incorrecto. El IGW da salida a Internet; no conecta redes privadas on-premises ni VPCs entre sí." }
+    ]
+  },
+  {
+    domain: "Dominio 2 · Arquitecturas resilientes",
+    text: "Una empresa quiere migrar servidores virtuales on-premises a EC2 con el mínimo tiempo de inactividad, replicando continuamente los servidores hasta el momento del cutover. ¿Qué servicio usar?",
+    multiple: false,
+    new: true,
+    doc: "https://docs.aws.amazon.com/mgn/latest/ug/what-is-application-migration-service.html",
+    options: [
+      { text: "AWS Application Migration Service (MGN).", correct: true, explanation: "Correcto. MGN (anteriormente CloudEndure) replica los servidores on-premises de forma continua en AWS, permitiendo un cutover rápido con mínima interrupción." },
+      { text: "AWS Database Migration Service.", correct: false, explanation: "Incorrecto. DMS migra bases de datos; para migrar servidores completos (lift-and-shift) se usa MGN." },
+      { text: "AWS Snowball para copiar los servidores.", correct: false, explanation: "Incorrecto. Snowball transfiere datos offline; no replica servidores en tiempo real para cutover de baja interrupción." },
+      { text: "AWS DataSync.", correct: false, explanation: "Incorrecto. DataSync transfiere archivos entre almacenamiento; no migra servidores completos como MGN." }
+    ]
   }
 ];
